@@ -5,6 +5,17 @@
  */
 package view;
 
+import database.ConexaoBanco;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author larissa
@@ -139,28 +150,90 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
-        // recupera o tipo de acesso
-        String ds_tipo_acesso = tipo_acesso.getSelectedItem().toString();
-        
-        // recupera o login
-        String login = username.getText();
-                
-        // recupera a senha (com aplicação de função hash)
-        HashPassword SenhaHash = new HashPassword();
-        String senhaInput = new String(password.getPassword());
-        
-        if(ds_tipo_acesso.equals("Cliente")){
-            ClientePainel painelCliente = new ClientePainel();
-            painelCliente.setVisible(true);
-        }
-        else if(ds_tipo_acesso.equals("Restaurante")){
-            RestaurantePainel painelRestaurante = new RestaurantePainel();
-            painelRestaurante.setVisible(true);
-        }
-        else{
+        try {
             
+            // recupera o tipo de acesso
+            String ds_tipo_acesso = tipo_acesso.getSelectedItem().toString();
+
+            // recupera o login
+            String login = username.getText();
+
+            // recupera a senha (com aplicação de função hash)
+            String senhaInput;
+            senhaInput = new String(password.getPassword());
+
+            //conexão com o banco de dados
+            Connection con = ConexaoBanco.getConnection();
+            PreparedStatement set;
+
+            String comando;
+
+            if(ds_tipo_acesso.equals("Cliente")){
+
+                // verifica se já existe usuário com esse login
+                comando = "select * from cliente where login = ?";
+
+                set = con.prepareStatement(comando);
+                set.setString(1, login);
+                
+                ResultSet rs = set.executeQuery();
+                
+                if(rs.next()){
+                    
+                    String senhaBanco = rs.getString("senha_acesso");
+                    
+                    boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
+                    
+                    if(validaSenha){
+                        ClientePainel painelCliente = new ClientePainel();
+                        painelCliente.setVisible(true);
+                        this.dispose();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Senha inválida!");
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
+                }
+            }
+            else if(ds_tipo_acesso.equals("Restaurante")){
+
+                // verifica se já existe usuário com esse login
+                comando = "select * from restaurante where login = ?";
+
+                set = con.prepareStatement(comando);
+                set.setString(1, login);
+                
+                ResultSet rs = set.executeQuery();
+                
+                if(rs.next()){
+                    
+                    String senhaBanco = rs.getString("senha_acesso");
+                    
+                    boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
+                    
+                    if(validaSenha){
+                        RestaurantePainel painelRestaurante = new RestaurantePainel();
+                        painelRestaurante.setVisible(true);
+                        this.dispose();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Senha inválida!");
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Tipo de acesso não reconhecido!");
+            }
+            
+            
+        } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

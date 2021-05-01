@@ -41,7 +41,7 @@ public class ClienteCardapioRestaurante extends javax.swing.JFrame {
         
         jTable1.setRowHeight(50);
         
-        jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageRender());
+        //jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageRender());
 
     }
     

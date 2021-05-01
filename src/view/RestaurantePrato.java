@@ -20,10 +20,15 @@ import javax.swing.JOptionPane;
  */
 public class RestaurantePrato extends javax.swing.JFrame {
 
+    public static Integer idRestaurante;
+    
     /**
      * Creates new form RestaurantePrato
      */
-    public RestaurantePrato() {
+    public RestaurantePrato(Integer idRestaurante) {
+        
+        RestaurantePrato.idRestaurante = idRestaurante;
+        
         initComponents();
         carregaComboBox();
     }
@@ -287,7 +292,7 @@ public class RestaurantePrato extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Prato cadastrado com sucesso!");
             
-            RestaurantePainel restaurantePainel = new RestaurantePainel();
+            RestaurantePainel restaurantePainel = new RestaurantePainel(RestaurantePrato.idRestaurante);
             restaurantePainel.setVisible(true);
             this.dispose();
             
@@ -317,7 +322,7 @@ public class RestaurantePrato extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        RestaurantePainel restaurantePainel = new RestaurantePainel();
+        RestaurantePainel restaurantePainel = new RestaurantePainel(RestaurantePrato.idRestaurante);
         restaurantePainel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -353,7 +358,7 @@ public class RestaurantePrato extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RestaurantePrato().setVisible(true);
+                new RestaurantePrato(RestaurantePrato.idRestaurante).setVisible(true);
             }
         });
     }

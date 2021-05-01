@@ -168,66 +168,69 @@ public class Login extends javax.swing.JFrame {
 
             String comando;
 
-            if(ds_tipo_acesso.equals("Cliente")){
-
-                // verifica se já existe usuário com esse login
-                comando = "select * from cliente where login = ?";
-
-                set = con.prepareStatement(comando);
-                set.setString(1, login);
-                
-                ResultSet rs = set.executeQuery();
-                
-                if(rs.next()){
-                    
-                    String senhaBanco = rs.getString("senha_acesso");
-                    
-                    boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
-                    
-                    if(validaSenha){
-                        ClientePainel painelCliente = new ClientePainel();
-                        painelCliente.setVisible(true);
-                        this.dispose();
+            switch (ds_tipo_acesso) {
+                case "Cliente":
+                    {
+                        // verifica se já existe usuário com esse login
+                        comando = "select * from cliente where login = ?";
+                        set = con.prepareStatement(comando);
+                        set.setString(1, login);
+                        ResultSet rs = set.executeQuery();
+                        if(rs.next()){
+                            
+                            String senhaBanco = rs.getString("senha_acesso");
+                            
+                            boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
+                            
+                            if(validaSenha){
+                                // recupera cpf do cliente
+                                String cpf = rs.getString("cpf");
+                                
+                                ClientePainel painelCliente = new ClientePainel(cpf);
+                                painelCliente.setVisible(true);
+                                this.dispose();
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Senha inválida!");
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
+                        }       break;
                     }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Senha inválida!");
+                case "Restaurante":
+                    {
+                        // verifica se já existe usuário com esse login
+                        comando = "select * from restaurante where login = ?";
+                        set = con.prepareStatement(comando);
+                        set.setString(1, login);
+                        ResultSet rs = set.executeQuery();
+                        if(rs.next()){
+                            
+                            String senhaBanco = rs.getString("senha_acesso");
+                            
+                            boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
+                            
+                            if(validaSenha){
+                                
+                                //recupera o id do restaurante
+                                Integer idRestaurante = rs.getInt("id_restaurante");
+                                
+                                RestaurantePainel painelRestaurante = new RestaurantePainel(idRestaurante);
+                                painelRestaurante.setVisible(true);
+                                this.dispose();
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Senha inválida!");
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
+                        }       break;
                     }
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
-                }
-            }
-            else if(ds_tipo_acesso.equals("Restaurante")){
-
-                // verifica se já existe usuário com esse login
-                comando = "select * from restaurante where login = ?";
-
-                set = con.prepareStatement(comando);
-                set.setString(1, login);
-                
-                ResultSet rs = set.executeQuery();
-                
-                if(rs.next()){
-                    
-                    String senhaBanco = rs.getString("senha_acesso");
-                    
-                    boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
-                    
-                    if(validaSenha){
-                        RestaurantePainel painelRestaurante = new RestaurantePainel();
-                        painelRestaurante.setVisible(true);
-                        this.dispose();
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Senha inválida!");
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
-                }
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Tipo de acesso não reconhecido!");
+                default:
+                    JOptionPane.showMessageDialog(null, "Tipo de acesso não reconhecido!");
+                    break;
             }
             
             

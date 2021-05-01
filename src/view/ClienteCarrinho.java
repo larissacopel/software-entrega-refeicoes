@@ -5,16 +5,22 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author larissa
  */
 public class ClienteCarrinho extends javax.swing.JFrame {
 
+    public static String noCpf;
+    
     /**
      * Creates new form carrinhoCliente
      */
-    public ClienteCarrinho() {
+    public ClienteCarrinho(String noCpf) {
+        ClienteCarrinho.noCpf = noCpf;
+
         initComponents();
     }
 
@@ -111,14 +117,14 @@ public class ClienteCarrinho extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        ClientePainel painelCliente = new ClientePainel();
+        ClientePainel painelCliente = new ClientePainel(ClienteCarrinho.noCpf);
         painelCliente.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        ClientePedido clientePedido = new ClientePedido();
+        ClientePedido clientePedido = new ClientePedido(ClienteCarrinho.noCpf);
         clientePedido.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -156,7 +162,7 @@ public class ClienteCarrinho extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteCarrinho().setVisible(true);
+                new ClienteCarrinho(ClienteCarrinho.noCpf).setVisible(true);
             }
         });
     }

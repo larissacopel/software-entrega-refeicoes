@@ -8,6 +8,7 @@ package view;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,10 +16,14 @@ import javax.swing.JLabel;
  */
 public class ClientePedido extends javax.swing.JFrame {
 
+    public static String noCpf;
+    
     /**
      * Creates new form ClientePedido
      */
-    public ClientePedido() {
+    public ClientePedido(String noCpf) {
+        ClientePedido.noCpf = noCpf;
+
         initComponents();
     }
 
@@ -74,7 +79,7 @@ public class ClientePedido extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ClientePedidosAtivos clientePedidosAtivos = new ClientePedidosAtivos();
+        ClientePedidosAtivos clientePedidosAtivos = new ClientePedidosAtivos(ClientePedido.noCpf);
         clientePedidosAtivos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -110,7 +115,7 @@ public class ClientePedido extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientePedido().setVisible(true);
+                new ClientePedido(ClientePedido.noCpf).setVisible(true);
             }
         });
     }

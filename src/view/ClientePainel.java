@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -26,10 +27,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ClientePainel extends javax.swing.JFrame {
 
+    public static String noCpf;
+    
     /**
      * Creates new form painelCliente
      */
-    public ClientePainel() {
+    public ClientePainel(String cpf) {
+        
+        ClientePainel.noCpf = cpf;
+        
         initComponents();
         jTable1.setRowHeight(50);
         carregaTabela();
@@ -223,7 +229,7 @@ public class ClientePainel extends javax.swing.JFrame {
             // recuperação do código de identificação do restaurante
             Integer idRestaurante = Integer.parseInt(jTable1.getValueAt(row,0).toString());
             
-            ClienteCardapioRestaurante cardRest = new ClienteCardapioRestaurante(idRestaurante);
+            ClienteCardapioRestaurante cardRest = new ClienteCardapioRestaurante(idRestaurante, ClientePainel.noCpf);
             cardRest.setVisible(true);
             this.dispose();
         }
@@ -231,14 +237,14 @@ public class ClientePainel extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        ClienteCarrinho carr = new ClienteCarrinho();
+        ClienteCarrinho carr = new ClienteCarrinho(ClientePainel.noCpf);
         carr.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        ClientePedidosAtivos clientePedidosAtivos = new ClientePedidosAtivos();
+        ClientePedidosAtivos clientePedidosAtivos = new ClientePedidosAtivos(ClientePainel.noCpf);
         clientePedidosAtivos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -276,7 +282,7 @@ public class ClientePainel extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientePainel().setVisible(true);
+                new ClientePainel(ClientePainel.noCpf).setVisible(true);
             }
         });
     }

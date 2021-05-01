@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -27,13 +28,15 @@ import javax.swing.table.DefaultTableModel;
 public class ClienteCardapioRestaurante extends javax.swing.JFrame {
 
     public static Integer idRestaurante;
+    public static String noCpf;
     
     /**
      * Creates new form cardapioRestauranteCliente
      */
-    public ClienteCardapioRestaurante(Integer idRestaurante) {
+    public ClienteCardapioRestaurante(Integer idRestaurante, String noCpf) {
         
         ClienteCardapioRestaurante.idRestaurante = idRestaurante;
+        ClienteCardapioRestaurante.noCpf = noCpf;
         
         initComponents();
         
@@ -201,14 +204,14 @@ public class ClienteCardapioRestaurante extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ClientePainel painelCliente = new ClientePainel();
+        ClientePainel painelCliente = new ClientePainel(ClienteCardapioRestaurante.noCpf);
         painelCliente.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        ClienteCarrinho carr = new ClienteCarrinho();
+        ClienteCarrinho carr = new ClienteCarrinho(ClienteCardapioRestaurante.noCpf);
         carr.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -223,7 +226,7 @@ public class ClienteCardapioRestaurante extends javax.swing.JFrame {
             // recuperação do código de identificação do restaurante
             Integer cdProduto = Integer.parseInt(jTable1.getValueAt(row,0).toString());
             
-            ClienteProduto cliProd = new ClienteProduto(cdProduto);
+            ClienteProduto cliProd = new ClienteProduto(cdProduto, ClienteCardapioRestaurante.noCpf);
             cliProd.setVisible(true);
             this.dispose();
         }
@@ -262,7 +265,7 @@ public class ClienteCardapioRestaurante extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteCardapioRestaurante(ClienteCardapioRestaurante.idRestaurante).setVisible(true);
+                new ClienteCardapioRestaurante(ClienteCardapioRestaurante.idRestaurante, ClienteCardapioRestaurante.noCpf).setVisible(true);
             }
         });
     }

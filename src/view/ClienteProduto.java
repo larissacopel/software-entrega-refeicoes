@@ -5,6 +5,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author larissa
@@ -12,11 +14,14 @@ package view;
 public class ClienteProduto extends javax.swing.JFrame {
 
     public static Integer cdProduto;
+    public static String noCpf;
     /**
      * Creates new form ClienteProduto
      */
-    public ClienteProduto(Integer cdProduto) {
+    public ClienteProduto(Integer cdProduto, String noCpf) {
         ClienteProduto.cdProduto = cdProduto;
+        ClienteProduto.noCpf = noCpf;
+
         initComponents();
     }
     
@@ -129,14 +134,14 @@ public class ClienteProduto extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        ClienteCarrinho carr = new ClienteCarrinho();
+        ClienteCarrinho carr = new ClienteCarrinho(ClienteProduto.noCpf);
         carr.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ClienteCardapioRestaurante carr = new ClienteCardapioRestaurante(0);
+        ClienteCardapioRestaurante carr = new ClienteCardapioRestaurante(0, ClienteProduto.noCpf);
         carr.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -198,7 +203,7 @@ public class ClienteProduto extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteProduto(ClienteProduto.cdProduto).setVisible(true);
+                new ClienteProduto(ClienteProduto.cdProduto, ClienteProduto.noCpf).setVisible(true);
             }
         });
     }

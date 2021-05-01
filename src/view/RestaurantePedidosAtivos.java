@@ -11,10 +11,16 @@ package view;
  */
 public class RestaurantePedidosAtivos extends javax.swing.JFrame {
 
+    public static Integer idRestaurante;
+
+    
     /**
      * Creates new form RestaurantePedidosAtivos
      */
-    public RestaurantePedidosAtivos() {
+    public RestaurantePedidosAtivos(Integer idRestaurante) {
+
+        RestaurantePedidosAtivos.idRestaurante = idRestaurante;
+
         initComponents();
     }
 
@@ -114,7 +120,7 @@ public class RestaurantePedidosAtivos extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        RestaurantePainel restaurantePainel = new RestaurantePainel();
+        RestaurantePainel restaurantePainel = new RestaurantePainel(RestaurantePedidosAtivos.idRestaurante);
         restaurantePainel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -150,7 +156,7 @@ public class RestaurantePedidosAtivos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RestaurantePedidosAtivos().setVisible(true);
+                new RestaurantePedidosAtivos(RestaurantePedidosAtivos.idRestaurante).setVisible(true);
             }
         });
     }

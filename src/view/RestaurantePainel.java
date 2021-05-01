@@ -20,10 +20,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RestaurantePainel extends javax.swing.JFrame {
 
+    public static Integer idRestaurante;
+    
     /**
      * Creates new form painelRestaurante
      */
-    public RestaurantePainel() {
+    public RestaurantePainel(Integer idRestaurante) {
+        
+        RestaurantePainel.idRestaurante = idRestaurante;
+        
         initComponents();
         jTable1.setRowHeight(50);
         carregaTabela();
@@ -35,13 +40,11 @@ public class RestaurantePainel extends javax.swing.JFrame {
             Connection con = ConexaoBanco.getConnection();
             PreparedStatement set;
             
-            Integer idRestaurante = 5;
-            
             // verifica se já existe usuário com esse login
             String cardapio = "select * from cardapio where id_restaurante = ?";
             
             set = con.prepareStatement(cardapio);
-            set.setInt(1, idRestaurante);
+            set.setInt(1, RestaurantePainel.idRestaurante );
              
             ResultSet resultCardapio = set.executeQuery();
             
@@ -56,7 +59,7 @@ public class RestaurantePainel extends javax.swing.JFrame {
                 
                 DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
             
-                tblModel.addRow(new Object[]{id_refeicao,tipo_comida, prato,descricao,preco,estoque});
+                tblModel.addRow(new Object[]{id_refeicao,tipo_comida, prato,descricao,preco,estoque,false});
 
             }
             
@@ -83,6 +86,7 @@ public class RestaurantePainel extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -104,15 +108,22 @@ public class RestaurantePainel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Tipo", "Prato", "Descrição", "Preço", "Estoque"
+                "Id", "Tipo", "Prato", "Descrição", "Preço", "Estoque", "Excluir"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -123,6 +134,8 @@ public class RestaurantePainel extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jButton2.setText("Excluir");
 
         jMenu3.setText("Home");
 
@@ -167,8 +180,11 @@ public class RestaurantePainel extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -182,7 +198,9 @@ public class RestaurantePainel extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
 
         pack();
@@ -190,14 +208,14 @@ public class RestaurantePainel extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        RestaurantePrato restaurantePrato = new RestaurantePrato();
+        RestaurantePrato restaurantePrato = new RestaurantePrato(RestaurantePainel.idRestaurante);
         restaurantePrato.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        RestaurantePedidosAtivos restaurantePedidosAtivos = new RestaurantePedidosAtivos();
+        RestaurantePedidosAtivos restaurantePedidosAtivos = new RestaurantePedidosAtivos(RestaurantePainel.idRestaurante);
         restaurantePedidosAtivos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -235,13 +253,14 @@ public class RestaurantePainel extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RestaurantePainel().setVisible(true);
+                new RestaurantePainel(RestaurantePainel.idRestaurante).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;

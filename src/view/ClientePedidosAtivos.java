@@ -5,16 +5,22 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author larissa
  */
 public class ClientePedidosAtivos extends javax.swing.JFrame {
 
+    public static String noCpf;
+    
     /**
      * Creates new form ClientePedidosAtivos
      */
-    public ClientePedidosAtivos() {
+    public ClientePedidosAtivos(String noCpf) {
+        ClientePedidosAtivos.noCpf = noCpf;
+
         initComponents();
     }
 
@@ -114,7 +120,7 @@ public class ClientePedidosAtivos extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        ClientePainel painelCliente = new ClientePainel();
+        ClientePainel painelCliente = new ClientePainel(ClientePedidosAtivos.noCpf);
         painelCliente.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -150,7 +156,7 @@ public class ClientePedidosAtivos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientePedidosAtivos().setVisible(true);
+                new ClientePedidosAtivos(ClientePedidosAtivos.noCpf).setVisible(true);
             }
         });
     }

@@ -5,6 +5,15 @@
  */
 package view;
 
+import database.ConexaoBanco;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author larissa
@@ -16,6 +25,48 @@ public class RestaurantePainel extends javax.swing.JFrame {
      */
     public RestaurantePainel() {
         initComponents();
+        jTable1.setRowHeight(50);
+        carregaTabela();
+    }
+    
+    private void carregaTabela(){
+        try {
+            //conexão com o banco de dados
+            Connection con = ConexaoBanco.getConnection();
+            PreparedStatement set;
+            
+            Integer idRestaurante = 5;
+            
+            // verifica se já existe usuário com esse login
+            String cardapio = "select * from cardapio where id_restaurante = ?";
+            
+            set = con.prepareStatement(cardapio);
+            set.setInt(1, idRestaurante);
+             
+            ResultSet resultCardapio = set.executeQuery();
+            
+            while(resultCardapio.next()){
+                
+                Integer id_refeicao = resultCardapio.getInt("id_refeicao");
+                String tipo_comida = resultCardapio.getString("tipo_comida");
+                String prato = resultCardapio.getString("prato");
+                String descricao = resultCardapio.getString("descricao");
+                Float preco = resultCardapio.getFloat("preco");
+                Integer estoque = resultCardapio.getInt("estoque");
+                
+                DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+            
+                tblModel.addRow(new Object[]{id_refeicao,tipo_comida, prato,descricao,preco,estoque});
+
+            }
+            
+            // fecha a conexão
+            ConexaoBanco.closeConnectionStmt(con, set);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RestaurantePainel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
 
     /**
@@ -50,15 +101,20 @@ public class RestaurantePainel extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Tipo", "Prato", "Descrição", "Preço", "Estoque"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Cadastrar novo prato");
@@ -111,11 +167,8 @@ public class RestaurantePainel extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 1, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

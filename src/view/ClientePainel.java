@@ -5,12 +5,20 @@
  */
 package view;
 
+import database.ConexaoBanco;
 import java.awt.Component;
 import java.awt.Image;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,7 +32,8 @@ public class ClientePainel extends javax.swing.JFrame {
     public ClientePainel() {
         initComponents();
         jTable1.setRowHeight(50);
-        jTable1.getColumnModel().getColumn(4).setCellRenderer(new ImageRender());
+        carregaTabela();
+        //jTable1.getColumnModel().getColumn(4).setCellRenderer(new ImageRender());
     }
 
     /**
@@ -56,16 +65,22 @@ public class ClientePainel extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "Teste1", "Teste2", "Teste3", "/Images/visuzalizar_cardapio.png"},
-                {null, "Teste5", "Teste6", "Teste7", "/Images/visuzalizar_cardapio.png"}
+
             },
             new String [] {
                 "Código", "Restaurante", "Endereço", "Raio de atend.", ""
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 true, false, false, false, true
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -145,6 +160,47 @@ public class ClientePainel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    private void carregaTabela(){
+        try {
+            //conexão com o banco de dados
+            Connection con = ConexaoBanco.getConnection();
+            PreparedStatement set;
+            
+            // verifica se já existe usuário com esse login
+            String cardapio = "select * from restaurante";
+            
+            set = con.prepareStatement(cardapio);
+            ResultSet resultRestaurante = set.executeQuery();
+            
+            while(resultRestaurante.next()){
+                
+                Integer id_restaurante = resultRestaurante.getInt("id_restaurante");
+                String nm_fantasia = resultRestaurante.getString("nome_fantasia");
+                String endereco = resultRestaurante.getString("endereco");
+                Float raio_km_atend = resultRestaurante.getFloat("raio_km_atend");
+                String visualizarCard = "Cardápio";
+                
+                DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+            
+                tblModel.addRow(new Object[]{
+                    id_restaurante,
+                    nm_fantasia, 
+                    endereco,
+                    raio_km_atend,
+                    visualizarCard}
+                );
+
+            }
+            
+            // fecha a conexão
+            ConexaoBanco.closeConnectionStmt(con, set);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RestaurantePainel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }
+    
     private class ImageRender extends DefaultTableCellRenderer {
 
         @Override
@@ -165,9 +221,9 @@ public class ClientePainel extends javax.swing.JFrame {
         if(col == 4){
             
             // recuperação do código de identificação do restaurante
-            Integer cdRestaurante = Integer.parseInt(jTable1.getValueAt(row,0).toString());
+            Integer idRestaurante = Integer.parseInt(jTable1.getValueAt(row,0).toString());
             
-            ClienteCardapioRestaurante cardRest = new ClienteCardapioRestaurante(cdRestaurante);
+            ClienteCardapioRestaurante cardRest = new ClienteCardapioRestaurante(idRestaurante);
             cardRest.setVisible(true);
             this.dispose();
         }

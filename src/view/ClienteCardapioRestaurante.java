@@ -5,12 +5,20 @@
  */
 package view;
 
+import database.ConexaoBanco;
 import java.awt.Component;
 import java.awt.Image;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,21 +26,61 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class ClienteCardapioRestaurante extends javax.swing.JFrame {
 
-    public static Integer cdRestaurante;
+    public static Integer idRestaurante;
     
     /**
      * Creates new form cardapioRestauranteCliente
      */
-    public ClienteCardapioRestaurante(Integer cdRestaurante) {
+    public ClienteCardapioRestaurante(Integer idRestaurante) {
         
-        ClienteCardapioRestaurante.cdRestaurante = cdRestaurante;
+        ClienteCardapioRestaurante.idRestaurante = idRestaurante;
         
         initComponents();
+        
+        carregaTabela(ClienteCardapioRestaurante.idRestaurante);
         
         jTable1.setRowHeight(50);
         
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageRender());
 
+    }
+    
+    private void carregaTabela(Integer idRestaurante){
+        try {
+            //conexão com o banco de dados
+            Connection con = ConexaoBanco.getConnection();
+            PreparedStatement set;
+            
+            // verifica se já existe usuário com esse login
+            String cardapio = "select * from cardapio where id_restaurante = ?";
+            
+            set = con.prepareStatement(cardapio);
+            set.setInt(1, idRestaurante);
+            
+            ResultSet resultCardapio = set.executeQuery();
+            
+            while(resultCardapio.next()){
+                
+                Integer id_refeicao = resultCardapio.getInt("id_refeicao");
+                String tipo_comida = resultCardapio.getString("tipo_comida");
+                String prato = resultCardapio.getString("prato");
+                String descricao = resultCardapio.getString("descricao");
+                Float preco = resultCardapio.getFloat("preco");
+                String adicionarCarrinho = "Adicionar";
+                
+                DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+            
+                tblModel.addRow(new Object[]{id_refeicao,tipo_comida, prato,descricao,preco,adicionarCarrinho});
+
+            }
+            
+            // fecha a conexão
+            ConexaoBanco.closeConnectionStmt(con, set);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RestaurantePainel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
     
     private class ImageRender extends DefaultTableCellRenderer {
@@ -68,18 +116,22 @@ public class ClienteCardapioRestaurante extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", null, null, null, null, null},
-                {"2", null, null, null, null, null},
-                {"3", null, null, null, null, null},
-                {"4", null, null, null, null, null}
+
             },
             new String [] {
-                "Código", "Categoria", "Prato", "Descrição", "Preço", "Adicionar ao carrinho"
+                "Id", "Tipo", "Prato", "Descrição", "Preço", "Adicionar ao carrinho"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 true, false, false, false, false, true
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -210,7 +262,7 @@ public class ClienteCardapioRestaurante extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteCardapioRestaurante(ClienteCardapioRestaurante.cdRestaurante).setVisible(true);
+                new ClienteCardapioRestaurante(ClienteCardapioRestaurante.idRestaurante).setVisible(true);
             }
         });
     }

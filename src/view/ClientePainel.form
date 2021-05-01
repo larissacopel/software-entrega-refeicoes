@@ -122,27 +122,12 @@
         <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="2">
-                <Column editable="true" title="C&#xf3;digo" type="java.lang.Object">
-                  <Data value="1"/>
-                  <Data value="null"/>
-                </Column>
-                <Column editable="false" title="Restaurante" type="java.lang.Object">
-                  <Data value="Teste1"/>
-                  <Data value="Teste5"/>
-                </Column>
-                <Column editable="false" title="Endere&#xe7;o" type="java.lang.Object">
-                  <Data value="Teste2"/>
-                  <Data value="Teste6"/>
-                </Column>
-                <Column editable="false" title="Raio de atend." type="java.lang.Object">
-                  <Data value="Teste3"/>
-                  <Data value="Teste7"/>
-                </Column>
-                <Column editable="true" title="" type="java.lang.Object">
-                  <Data value="/Images/visuzalizar_cardapio.png"/>
-                  <Data value="/Images/visuzalizar_cardapio.png"/>
-                </Column>
+              <Table columnCount="5" rowCount="0">
+                <Column editable="true" title="C&#xf3;digo" type="java.lang.Integer"/>
+                <Column editable="false" title="Restaurante" type="java.lang.String"/>
+                <Column editable="false" title="Endere&#xe7;o" type="java.lang.String"/>
+                <Column editable="false" title="Raio de atend." type="java.lang.Float"/>
+                <Column editable="true" title="" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

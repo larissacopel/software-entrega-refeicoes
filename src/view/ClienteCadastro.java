@@ -12,9 +12,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -25,7 +27,7 @@ public class ClienteCadastro extends javax.swing.JFrame {
     /**
      * Creates new form cadastroCliente
      */
-    public ClienteCadastro() {
+    public ClienteCadastro() throws ParseException {
         initComponents();
     }
 
@@ -73,6 +75,24 @@ public class ClienteCadastro extends javax.swing.JFrame {
         jLabel5.setText("E-mail:");
 
         jLabel6.setText("Telefone:");
+
+        try {
+            cpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            rg.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###-#")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            telefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         jButton1.setText("Cadastrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -206,10 +226,10 @@ public class ClienteCadastro extends javax.swing.JFrame {
             String nm_completo = nome_completo.getText();
             
             // recupera o cpf
-            String no_cpf = cpf.getText();
+            String no_cpf = cpf.getText().replace(".", "").replace("-", "");
             
             // recupera o rg
-            String no_rg = rg.getText();
+            String no_rg = rg.getText().replace(".", "").replace("-", "");
             
             // recupera o email
             String ds_email = email.getText();
@@ -230,10 +250,21 @@ public class ClienteCadastro extends javax.swing.JFrame {
             
             ResultSet fgLoginValido = set.executeQuery();
 
-            if(fgLoginValido.next()){
-                
-                JOptionPane.showMessageDialog(null, "O usuário "+ds_login+" já está cadastrado!");
+            // verifica se já existe usuário com esse cpf
+            String verificacaoCpf = "select * from cliente where cpf = ?";
             
+            set = con.prepareStatement(verificacaoCpf);
+            
+            set.setString(1, no_cpf);
+            
+            ResultSet fgCpfValido = set.executeQuery();
+            
+
+            if(fgLoginValido.next()){
+                JOptionPane.showMessageDialog(null, "O usuário "+ds_login+" já está cadastrado!");
+            }
+            else if(fgCpfValido.next()){
+                JOptionPane.showMessageDialog(null, "O cpf "+no_cpf+" já está cadastrado!");
             }
             else{
                 
@@ -311,7 +342,11 @@ public class ClienteCadastro extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteCadastro().setVisible(true);
+                try {
+                    new ClienteCadastro().setVisible(true);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ClienteCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

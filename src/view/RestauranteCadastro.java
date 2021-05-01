@@ -49,13 +49,13 @@ public class RestauranteCadastro extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         endereco = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        raio_atend = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
+        raio_atend = new javax.swing.JFormattedTextField();
 
         jTextField6.setText("jTextField6");
 
@@ -69,6 +69,12 @@ public class RestauranteCadastro extends javax.swing.JFrame {
         jLabel3.setText("Razão social:");
 
         jLabel4.setText("CNPJ:");
+
+        try {
+            cnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         jLabel5.setText("Endereço:");
 
@@ -92,12 +98,18 @@ public class RestauranteCadastro extends javax.swing.JFrame {
             }
         });
 
+        raio_atend.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,26 +133,20 @@ public class RestauranteCadastro extends javax.swing.JFrame {
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(jButton1)
-                        .addGap(0, 156, Short.MAX_VALUE))
+                                .addGap(0, 81, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(username))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(password))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6)
-                        .addGap(4, 4, 4)
-                        .addComponent(raio_atend))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(username))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(password)))
+                        .addGap(2, 2, 2)
+                        .addComponent(raio_atend)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -158,7 +164,7 @@ public class RestauranteCadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nome_fantasia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -178,7 +184,7 @@ public class RestauranteCadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(raio_atend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(38, 38, 38)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -204,13 +210,13 @@ public class RestauranteCadastro extends javax.swing.JFrame {
             String nm_razao_social = razao_social.getText();
             
             // recupera o cnpj
-            String no_cnpj = cnpj.getText();
+            String no_cnpj = cnpj.getText().replace(".", "").replace("/", "").replace("-", "");
             
             // recupera o endereco
             String ds_endereco = endereco.getText();
             
             // recupera o raio de atendimento
-            Float vl_raio_atend = Float.parseFloat(raio_atend.getText());
+            Float vl_raio_atend = Float.parseFloat(raio_atend.getText().replace(",", "."));
 
             //conexão com o banco de dados
             Connection con = ConexaoBanco.getConnection();
@@ -338,7 +344,7 @@ public class RestauranteCadastro extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField nome_fantasia;
     private javax.swing.JPasswordField password;
-    private javax.swing.JTextField raio_atend;
+    private javax.swing.JFormattedTextField raio_atend;
     private javax.swing.JTextField razao_social;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables

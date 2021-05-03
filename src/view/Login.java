@@ -54,7 +54,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setText("Acesse sua conta");
 
-        tipo_acesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Restaurante" }));
+        tipo_acesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Funcionário" }));
 
         jLabel2.setText("Acessar como:");
 
@@ -172,13 +172,18 @@ public class Login extends javax.swing.JFrame {
                 case "Cliente":
                     {
                         // verifica se já existe usuário com esse login
-                        comando = "select * from cliente where login = ?";
+                        comando = "select * "
+                                + "from pessoa as a "
+                                + "inner join cliente as b "
+                                + "on a.cpf = b.fk_pessoa_cpf "
+                                + "where cast(a.cpf as varchar) = ?";
+                        
                         set = con.prepareStatement(comando);
                         set.setString(1, login);
                         ResultSet rs = set.executeQuery();
                         if(rs.next()){
                             
-                            String senhaBanco = rs.getString("senha_acesso");
+                            String senhaBanco = rs.getString("senha");
                             
                             boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
                             
@@ -198,16 +203,21 @@ public class Login extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
                         }       break;
                     }
-                case "Restaurante":
+                case "Funcionário":
                     {
                         // verifica se já existe usuário com esse login
-                        comando = "select * from restaurante where login = ?";
+                        comando = "select * "
+                                + "from pessoa as a "
+                                + "inner join funcionario as b "
+                                + "on a.cpf = b.fk_pessoa_cpf "
+                                + "where cast(a.cpf as varchar) = ?";
+                        
                         set = con.prepareStatement(comando);
                         set.setString(1, login);
                         ResultSet rs = set.executeQuery();
                         if(rs.next()){
                             
-                            String senhaBanco = rs.getString("senha_acesso");
+                            String senhaBanco = rs.getString("senha");
                             
                             boolean validaSenha=HashPassword.validatePassword(senhaInput,senhaBanco);
                             

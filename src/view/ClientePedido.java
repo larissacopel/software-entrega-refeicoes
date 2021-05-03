@@ -25,6 +25,7 @@ public class ClientePedido extends javax.swing.JFrame {
         ClientePedido.noCpf = noCpf;
 
         initComponents();
+        
     }
 
     /**

@@ -54,9 +54,7 @@ public class ClienteCadastro extends javax.swing.JFrame {
         telefone = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
         password = new javax.swing.JPasswordField();
 
         jPasswordField2.setText("jPasswordField2");
@@ -108,8 +106,6 @@ public class ClienteCadastro extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("Login:");
-
         jLabel8.setText("Senha:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -117,48 +113,42 @@ public class ClienteCadastro extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nome_completo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cpf)
+                            .addComponent(rg)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(email))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(telefone))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nome_completo))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cpf)
-                                    .addComponent(rg)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(email))
+                                .addGap(136, 136, 136)
+                                .addComponent(jButton1))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)
-                                .addGap(0, 124, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(telefone))))
+                                .addComponent(jLabel1)))
+                        .addGap(0, 124, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(username)
-                            .addComponent(password))))
+                        .addComponent(password)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -168,15 +158,7 @@ public class ClienteCadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton2))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(nome_completo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -196,7 +178,11 @@ public class ClienteCadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(telefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(24, 24, 24))
         );
@@ -215,8 +201,6 @@ public class ClienteCadastro extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             
-            // recupera o login
-            String ds_login = username.getText();
             
             // recupera a senha (com aplicação de função hash)
             String senhaInput;
@@ -226,67 +210,53 @@ public class ClienteCadastro extends javax.swing.JFrame {
             String nm_completo = nome_completo.getText();
             
             // recupera o cpf
-            String no_cpf = cpf.getText().replace(".", "").replace("-", "");
+            Long no_cpf = Long.parseLong(cpf.getText().replace(".", "").replace("-", ""));
             
             // recupera o rg
-            String no_rg = rg.getText().replace(".", "").replace("-", "");
+            Integer no_rg = Integer.parseInt(rg.getText().replace(".", "").replace("-", ""));
             
             // recupera o email
             String ds_email = email.getText();
             
             // recupera o telefone
-            String no_telefone = telefone.getText();
+            Long no_telefone = Long.parseLong(telefone.getText().replace("(", "").replace(")", "").replace("-", ""));
             
             //conexão com o banco de dados
             Connection con = ConexaoBanco.getConnection();
             PreparedStatement set;
             
-            // verifica se já existe usuário com esse login
-            String verificacaoLogin = "select * from cliente where login = ?";
-            
-            set = con.prepareStatement(verificacaoLogin);
-            
-            set.setString(1, ds_login);
-            
-            ResultSet fgLoginValido = set.executeQuery();
-
             // verifica se já existe usuário com esse cpf
-            String verificacaoCpf = "select * from cliente where cpf = ?";
+            String verificacaoCpf = "select * from cliente where fk_pessoa_cpf = ?";
             
             set = con.prepareStatement(verificacaoCpf);
             
-            set.setString(1, no_cpf);
+            set.setLong(1, no_cpf);
             
             ResultSet fgCpfValido = set.executeQuery();
             
 
-            if(fgLoginValido.next()){
-                JOptionPane.showMessageDialog(null, "O usuário "+ds_login+" já está cadastrado!");
-            }
-            else if(fgCpfValido.next()){
+            if(fgCpfValido.next()){
                 JOptionPane.showMessageDialog(null, "O cpf "+no_cpf+" já está cadastrado!");
             }
             else{
-                
-                String queryCadastro = "insert into cliente ("
-                        + "nome_comp"
+
+                String queryCadastro = "insert into pessoa ("
+                        + "nome"
                         + ", cpf"
                         + ", rg"
                         + ", email"
-                        + ", telefone"
-                        + ", login"
-                        + ", senha_acesso) "
-                        + "values (?, ?, ?, ?, ?, ?, ?)";
+                        + ", numero"
+                        + ", senha) "
+                        + "values (?, ?, ?, ?, ?, ?)";
 
                 set = con.prepareStatement(queryCadastro);
                 
                 set.setString(1, nm_completo);
-                set.setString(2, no_cpf);
-                set.setString(3, no_rg);
+                set.setLong(2, no_cpf);
+                set.setInt(3, no_rg);
                 set.setString(4, ds_email);
-                set.setString(5, no_telefone);
-                set.setString(6, ds_login);
-                set.setString(7, senhaInput);
+                set.setLong(5, no_telefone);
+                set.setString(6, senhaInput);
                 
                 set.executeUpdate();
                 
@@ -362,14 +332,12 @@ public class ClienteCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JTextField nome_completo;
     private javax.swing.JPasswordField password;
     private javax.swing.JFormattedTextField rg;
     private javax.swing.JFormattedTextField telefone;
-    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 
 }

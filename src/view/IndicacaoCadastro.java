@@ -5,6 +5,10 @@
  */
 package view;
 
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author larissa
@@ -81,9 +85,15 @@ public class IndicacaoCadastro extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ClienteCadastro cadCliente = new ClienteCadastro();
-        cadCliente.setVisible(true);
+        ClienteCadastro cadCliente;
+        try {
+            cadCliente = new ClienteCadastro();
+            cadCliente.setVisible(true);
         this.dispose();
+        } catch (ParseException ex) {
+            Logger.getLogger(IndicacaoCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
